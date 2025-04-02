@@ -1,0 +1,15 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/crc_gen.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module crc_gen
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/data_packet.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tx_buf_8bit
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/eth_header_gen.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module eth_header_gen
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/packet_gen.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module packet_gen
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/packet_recv.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module packet_recv
+WARNING: [VRFC 10-3380] identifier 'packet_done' is used before its declaration [/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/packet_recv.sv:59]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/recv_8bit.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module recv_8bit
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/rmii_axis_v1_0.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module rmii_axis_v1_0

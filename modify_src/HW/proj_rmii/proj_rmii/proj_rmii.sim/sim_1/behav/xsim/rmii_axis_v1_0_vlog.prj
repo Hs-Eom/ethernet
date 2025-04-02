@@ -1,0 +1,18 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../../../../../../rmii.gen/sources_1/ip/data_fifo/sim/data_fifo.v" \
+
+sv xil_defaultlib  \
+"../../../../../../crc_gen.sv" \
+"../../../../../../data_packet.sv" \
+"../../../../../../eth_header_gen.sv" \
+"../../../../../../packet_gen.sv" \
+"../../../../../../packet_recv.sv" \
+"../../../../../../recv_8bit.sv" \
+"../../../../../../rmii_axis_v1_0.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

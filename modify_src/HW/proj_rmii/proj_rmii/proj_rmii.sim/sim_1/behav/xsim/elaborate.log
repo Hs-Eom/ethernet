@@ -1,0 +1,30 @@
+Vivado Simulator v2023.2
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: /tools/Xilinx/Vivado/2023.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L fifo_generator_v13_2_9 -L uvm -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot rmii_axis_v1_0_behav xil_defaultlib.rmii_axis_v1_0 xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-9543] actual bit length 32 differs from formal bit length 12 for port 'payload_bytes' [/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/packet_gen.sv:211]
+WARNING: [VRFC 10-9543] actual bit length 336 differs from formal bit length 500 for port 'output_header' [/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/packet_gen.sv:212]
+WARNING: [VRFC 10-9543] actual bit length 2 differs from formal bit length 1 for port 'RX_DV' [/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/rmii_axis_v1_0.sv:132]
+WARNING: [VRFC 10-9543] actual bit length 2 differs from formal bit length 1 for port 'RXDV' [/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/rmii_axis_v1_0.sv:150]
+WARNING: [VRFC 10-3823] variable 'TX_READY_i' might have multiple concurrent drivers [/home/ehs/Desktop/test/Ethernet/modify_src/rrmi_src/rmii_axis_v1_0.sv:111]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.eth_header_gen(FPGA_IP=32'b01010...
+Compiling module fifo_generator_v13_2_9.fifo_generator_v13_2_9_bhv_ver_s...
+Compiling module fifo_generator_v13_2_9.fifo_generator_v13_2_9_bhv_ver_p...
+Compiling module fifo_generator_v13_2_9.fifo_generator_v13_2_9_CONV_VER(...
+Compiling module fifo_generator_v13_2_9.fifo_generator_vlog_beh(C_COMMON...
+Compiling module xil_defaultlib.data_fifo
+Compiling module xil_defaultlib.crc_gen
+Compiling module xil_defaultlib.packet_gen(FPGA_IP=32'b010100000...
+Compiling module xil_defaultlib.tx_buf_8bit_default
+Compiling module xil_defaultlib.recv_8bit_default
+Compiling module xil_defaultlib.packet_recv(FPGA_IP=32'b01010000...
+Compiling module xil_defaultlib.rmii_axis_v1_0
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot rmii_axis_v1_0_behav

@@ -1,0 +1,7 @@
+Running: xsim.dir/rmii_axis_v1_0_behav/xsimk -simmode gui -wdb rmii_axis_v1_0_behav.wdb -simrunnum 0 -socket 59659
+Design successfully loaded
+Design Loading Memory Usage: 24148 KB (Peak: 24276 KB)
+Design Loading CPU Usage: 20 ms
+Simulation completed
+Simulation Memory Usage: 110244 KB (Peak: 163416 KB)
+Simulation CPU Usage: 30 ms
