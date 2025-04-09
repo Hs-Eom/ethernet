@@ -1,26 +1,4 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: HDLForBeginners
-// Engineer: Stacey
-//
-// Create Date: 14.07.2021 13:47:50
-// Design Name: axis_gpio
-// Module Name: axis_gpio
-// Project Name: axis_gpio
-// Target Devices:
-// Tool Versions:
-// Description:
-// drives a LED output from an input axis slave stream
-// This selects byte number BYTE_START with length GPIO_WIDTH and drives that on the led_out pin
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
 
-//수정 완료
 module axis_gpio
   #(
     parameter BYTE_START = 31, //0xFF <= FF(31번째 비트)에 해당하는걸 LED로 보여줌

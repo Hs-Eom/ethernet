@@ -1,24 +1,3 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company:
-// Engineer:
-//
-// Create Date: 13.11.2021 13:55:40
-// Design Name:eth_header_gen
-// Module Name:
-// Project Name:
-// Target Devices:
-// Tool Versions:
-// Description:
-// Creates an ethernet header object based on supplied parameters
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
-
 module eth_header_gen
   #(
     

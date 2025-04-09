@@ -1,27 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: HDLForBeginners
-// Engineer: Stacey
-//
-// Create Date: 14.07.2021 13:47:50
-// Design Name: sw_axis
-// Module Name: sw_axis
-// Project Name: sw_axis
-// Target Devices:
-// Tool Versions:
-// Description:
-// Takes an input gpio pin and drives a master AXI-Stream interface
-// Pre-pending and appending supplied ASCII character strings
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
-
-
 module sw_axis
   #(
     // number of prefix/postfix characters
@@ -62,8 +39,6 @@ module sw_axis
      );
 
    // debounce gpio in
-   // These signals are considered independant (ie this is not supposed to be a bus)
-   // So they are processed individually
    logic [GPIO_WIDTH-1:0]	gpio_in_debounced;
    logic [GPIO_WIDTH-1:0]	gpio_in_debounced_z;
 
@@ -86,7 +61,7 @@ module sw_axis
    // This detects if *any* of the input pins (after debounce) changed
    logic			gpio_changed;
    
-   always_ff@(posedge clk)
+   always@(posedge clk)
      begin
         if (!reset_n) begin
            gpio_changed <= 0;
@@ -108,21 +83,7 @@ module sw_axis
      end
 
 
-   // State machine
-   // This produces the output axi stream 
-   // This state machine writes into an AXI fifo which handles the backpressure for the AXI interface
-
-   // states:
-   // IDLE: Waiting for input data
-   // PREFIX: Driving out the prefix
-   // DATA: Driving out the data
-   // POSTFIX: driving out the postfix
-   // WAIT: Padding between output words
-
    typedef enum                     {IDLE, PREFIX, DATA, POSTFIX, WAIT}  state_type;
-
-   // current_state: where I am now
-   // next_state: where I'm going to be in the next cycle
    state_type current_state = IDLE;
    state_type next_state    = IDLE;
    
@@ -178,8 +139,7 @@ module sw_axis
         end
      end
    
-   // 3 process state machine
-   // 1) decide which state to go into next
+
    always @(*)
      begin
         next_state = current_state;
@@ -238,7 +198,6 @@ module sw_axis
      end
    
    
-   //2) register into that state
    always @(posedge clk)
      begin
         if(!reset_n) begin
@@ -296,12 +255,12 @@ end
       end
       else begin
          
-         // prefix loading
+         // prefix
          if (next_state == PREFIX && current_state != PREFIX) begin
             prefix_buffer   <= {<<8{PREFIX_STRING}};
             
          end
-         // and data loading
+         // and data
          if (next_state == DATA && current_state != DATA) begin
             if (ASCII_DATA) begin
                data_buffer <= {<<8{gpio_ascii}}; 
@@ -311,7 +270,7 @@ end
             end   
             
          end
-         // and postfix loading
+         // and postfix
          if (next_state == POSTFIX && current_state != POSTFIX) begin
             postfix_buffer   <= {<<8{POSTFIX_STRING_CR}};
             
@@ -334,7 +293,6 @@ end
    // drive last on the cycle before we go into idle state
    assign axis_last = (next_state == WAIT & current_state != WAIT) ? 1 : 0;
 
-   //3) drive output according to state
    always @(*)
      begin
         case (current_state)
@@ -379,20 +337,20 @@ end
    
    axis_data_fifo_tuser axis_data_fifo_tuser 
      (
-      .s_axis_aresetn(reset_n),          // input wire s_axis_aresetn
-      .s_axis_aclk(clk),                // input wire s_axis_aclk
-      .s_axis_tvalid(axis_valid),            // input wire s_axis_tvalid
-      .s_axis_tready(axis_ready),            // output wire s_axis_tready
-      .s_axis_tdata(axis_data),              // input wire [7 : 0] s_axis_tdata
-      .s_axis_tlast(axis_last),              // input wire s_axis_tlast
-      .s_axis_tuser(axis_user),              // input wire [11 : 0] s_axis_tuser
-      .m_axis_tvalid(m_axis_valid),            // output wire m_axis_tvalid
-      .m_axis_tready(m_axis_ready),            // input wire m_axis_tready
-      .m_axis_tdata(m_axis_data),              // output wire [7 : 0] m_axis_tdata
-      .m_axis_tlast(m_axis_last),              // output wire m_axis_tlast
-      .m_axis_tuser(),              // output wire [11 : 0] m_axis_tuser
-      .axis_wr_data_count(),  // output wire [31 : 0] axis_wr_data_count
-      .prog_full(fifo_full)                    // output wire prog_full
+      .s_axis_aresetn(reset_n),          
+      .s_axis_aclk(clk),                
+      .s_axis_tvalid(axis_valid),        
+      .s_axis_tready(axis_ready),        
+      .s_axis_tdata(axis_data),          
+      .s_axis_tlast(axis_last),          
+      .s_axis_tuser(axis_user),          
+      .m_axis_tvalid(m_axis_valid),      
+      .m_axis_tready(m_axis_ready),      
+      .m_axis_tdata(m_axis_data),        
+      .m_axis_tlast(m_axis_last),        
+      .m_axis_tuser(),               
+      .axis_wr_data_count(),  
+      .prog_full(fifo_full)              
       );
 
    assign m_axis_tuser = axis_user;

@@ -1,27 +1,5 @@
 
 `timescale 1 ns / 1 ps
-
-//////////////////////////////////////////////////////////////////////////////////
-// Company: HDLForBeginners
-// Engineer: Stacey
-//
-// Create Date: 14.07.2021 13:47:50
-// Design Name: axis_gpio_v1_0
-// Module Name: axis_gpio_v1_0
-// Project Name: axis_gpio_v1_0
-// Target Devices:
-// Tool Versions:
-// Description:
-// converts GPIO inputs and outputs to AXI stream interface
-//
-// Dependencies:
-//
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-//
-//////////////////////////////////////////////////////////////////////////////////
-
 module axis_gpio_v1_0 #
   (
     parameter			      PREFIX_CHARS = 31,
