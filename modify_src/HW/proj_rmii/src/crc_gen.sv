@@ -1,4 +1,4 @@
-
+`timescale 1ps / 1ps
 module crc_gen
   (
    input [1:0]   data_in,

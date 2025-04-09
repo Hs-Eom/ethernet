@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 module packet_gen
   #(
    
@@ -8,7 +9,7 @@ module packet_gen
    parameter [47:0] FPGA_MAC = 48'he86a64e7e830,
    parameter [47:0] HOST_MAC = 48'he86a64e7e829,
    parameter [15:0] HEADER_CHECKSUM = 16'h65ba,
-    
+
    parameter	    MII_WIDTH = 2,
    parameter	    WORD_BYTES = 1
 
@@ -236,8 +237,12 @@ module packet_gen
             begin
                // If there's enough data in fifo
                if (fifo_count >= S_AXIS_TUSER*WORD_BYTES) begin
-                  next_state = PREAMBLE;
-
+                  if(PREAMBLE_OFF && SFD_OFF) begin
+                     next_state = HEADER;
+                  end
+                  else begin
+                     next_state = PREAMBLE;
+                  end
                end
                else begin
                   next_state = current_state;
@@ -277,13 +282,12 @@ module packet_gen
           DATA  :
             begin
                if (state_counter == DATA_LENGTH-1) begin
-                  next_state = FCS;
-               end
+                     next_state = FCS;
+                  end
                else begin
                   next_state = current_state;
-
                end
-            end
+               end
           FCS  :
             begin
                if (state_counter == FCS_LENGTH-1) begin

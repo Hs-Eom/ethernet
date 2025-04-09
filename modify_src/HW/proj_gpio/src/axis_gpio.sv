@@ -1,4 +1,5 @@
-
+`timescale 1ns / 1ps
+//수정 완료
 module axis_gpio
   #(
     parameter BYTE_START = 31, //0xFF <= FF(31번째 비트)에 해당하는걸 LED로 보여줌

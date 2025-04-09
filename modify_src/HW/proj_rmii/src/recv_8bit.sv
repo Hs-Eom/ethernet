@@ -9,7 +9,6 @@ module recv_8bit#(
     input wire [BW-1 : 0]	s_axis_tdata,
     input wire		s_axis_tlast,
     input wire		s_axis_tvalid,
-//수정필요
     output wire [1:0] RX_D,
     output wire RX_DV
 );

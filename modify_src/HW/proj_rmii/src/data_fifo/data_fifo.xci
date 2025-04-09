@@ -4,7 +4,7 @@
     "xci_name": "data_fifo",
     "component_reference": "xilinx.com:ip:fifo_generator:13.2",
     "ip_revision": "9",
-    "gen_directory": "./",
+    "gen_directory": "../../../../rmii.gen/sources_1/ip/data_fifo",
     "parameters": {
       "component_parameters": {
         "Component_Name": [ { "value": "data_fifo", "resolve_type": "user", "usage": "all" } ],
@@ -397,7 +397,7 @@
         "IPCONTEXT": [ { "value": "IP_Flow" } ],
         "IPREVISION": [ { "value": "9" } ],
         "MANAGED": [ { "value": "TRUE" } ],
-        "OUTPUTDIR": [ { "value": "./" } ],
+        "OUTPUTDIR": [ { "value": "../../../../rmii.gen/sources_1/ip/data_fifo" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],
         "SHAREDDIR": [ { "value": "." } ],
         "SWVERSION": [ { "value": "2023.2" } ],

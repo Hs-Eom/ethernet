@@ -21,13 +21,6 @@ module rmii_axis_v1_0 #
    )
    (
 
-    //output		ETH_MDC,
-    //inout		ETH_MDIO,
-    //input		ETH_CRSDV,
-    //input		ETH_RXERR,
-    //input [1:0]		ETH_RXD,
-    //output		ETH_TXEN,
-    //output [1:0]	ETH_TXD,
    
     // rrmi(Master) -> GPIO I/F
     input wire		m00_axis_aclk,
