@@ -6,8 +6,8 @@
 #include "xaxidma.h"
 #include "xemacps.h"
 
-#define MM2S_BASE          0x01000000
-#define S2MM_BASE          0x02000000
+#define MM2S_BASE          0x01000000  // MM2S로 DDR에 저장할 위치
+#define S2MM_BASE          0x02000000  // PL -> DDR로 저장된 위치
 #define TX_PACKET_BASE     0x03000000
 #define RX_PACKET_BASE     0x05000000
 #define TX_BD_MEMORY_BASE  0x04000000
@@ -24,16 +24,16 @@ XEmacPs* EMACPS_PTR = &EmacPsInstance;
 XEmacPs_BdRing *TxBdRingPtr;
 XEmacPs_BdRing *RxBdRingPtr;
 
-// ===== BD 함수 선언 =====
+// ------ BD 함수 선언 -----------------------------
 int SetupTxBd(u8 *TxBuffer, u32 Length);
 int SetupRxBd(u8 *RxBuffer);
 int HandleTxComplete();
 int HandleRxComplete(u8 **RxData, u32 *RxLength);
 
-// ===== 기본 설정 함수 선언 =====
+//------ 기본 설정 함수 선언 ----------
 void DMA_Setup();
 void Mac_ctrl_init();
-void mac_nw_cfg();
+void mac_nw_cfg(u8 *Clean_frame);
 void phy_setting();
 
 int main()
@@ -91,9 +91,6 @@ int main()
         // 6. TX BD 세팅
         SetupTxBd(TxBuffer, CleanLen);
 
-        //TX시작
-        XEmacPs_txen
-
         // 7. TX 완료 처리
         HandleTxComplete();
 
@@ -101,7 +98,19 @@ int main()
         u8 *RxData;
         u32 RxLen;
         if (HandleRxComplete(&RxData, &RxLen) == XST_SUCCESS) {
-            xil_printf("Received Frame Length: %d\n\r", RxLen);
+            xil_printf("recieved frame length: %d\n\r", RxLen);
+
+            //수신된 데이터를 MM2S로 DDR에 저장
+            Xil_DCacheFlushRange((UINTPTR)RxData, RxLen);
+
+            int Status = XAxiDma_SimpleTransfer(&AxiDma, (UINTPTR)MM2S_BASE, RxLen, XAXIDMA_DMA_TO_DEVICE);
+            if (Status != XST_SUCCESS) {
+                xil_printf("DMA MM2S Transfer failed!\n\r");
+            }
+
+            while (XAxiDma_Busy(&AxiDma, XAXIDMA_DMA_TO_DEVICE));
+
+            xil_printf("Frame stored to DDR at 0x%x\n\r", MM2S_BASE);
 
             // 9. 다음 수신 준비
             SetupRxBd((u8 *)RX_PACKET_BASE);
@@ -112,7 +121,7 @@ int main()
     return 0;
 }
 
-// ===== BD 함수 구현 =====
+// ----- BD 함수 구현 -----
 
 // TX용 BD 설정
 int SetupTxBd(u8 *TxBuffer, u32 Length)
@@ -129,8 +138,8 @@ int SetupTxBd(u8 *TxBuffer, u32 Length)
     XEmacPs_BdClear(TxBdPtr);
     XEmacPs_BdSetAddressTx(TxBdPtr, (u32)TxBuffer);
     XEmacPs_BdSetLength(TxBdPtr, Length);
-    XEmacPs_BdClearTxUsed(TxBdPtr);//MAC한테 권한 줌
-    XEmacPs_BdSetLast(TxBdPtr);//하나의 frame = 하나의 bd
+    XEmacPs_BdClearTxUsed(TxBdPtr);
+    XEmacPs_BdSetLast(TxBdPtr);
 
     Status = XEmacPs_BdRingToHw(TxBdRingPtr, 1, TxBdPtr);
     if (Status != XST_SUCCESS) {
@@ -202,7 +211,6 @@ int HandleRxComplete(u8 **RxData, u32 *RxLength)
     return XST_SUCCESS;
 }
 
-
 // DMA 초기화
 void DMA_Setup()
 {
@@ -221,16 +229,16 @@ void Mac_ctrl_init()
     XEmacPs_Reset(EMACPS_PTR);
 }
 
-// 네트워크 레지스터 설정
-void mac_nw_cfg(u8* Clean_frame)
+// 네트워크 설정
+void mac_nw_cfg(u8 *Clean_frame)
 {
     XEmacPs_SetOperatingSpeed(EMACPS_PTR, (u16)1000);
     XEmacPs_SetOptions(EMACPS_PTR, XEMACPS_BROADCAST_OPTION | XEMACPS_MULTICAST_OPTION);
     XEmacPs_SetMdioDivisor(EMACPS_PTR, 0x2);
 
     u8 Mac_addr[6];
-    for (int i =0; i<6; i++){
-        Mac_addr[i] = Clean_frame[6+i];
+    for (int i = 0; i < 6; i++) {
+        Mac_addr[i] = Clean_frame[6 + i];
     }
     XEmacPs_SetMacAddress(EMACPS_PTR, Mac_addr, 0);
 
